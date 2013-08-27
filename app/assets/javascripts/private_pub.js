@@ -25,9 +25,10 @@ function buildPrivatePub(doc) {
                       self.connectToFaye()
                       script.onload = script.onreadystatechange = null;
                   }
+		var first = document.getElementsByTagName('script')[0];
+		first.parentNode.insertBefore(script, first);
               }
           }
-          doc.documentElement.appendChild(script);
         }
       }
     },
