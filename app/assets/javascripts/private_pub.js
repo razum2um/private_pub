@@ -7,7 +7,7 @@ function buildPrivatePub(doc) {
     subscriptionObjects: {},
     subscriptionCallbacks: {},
 
-    faye: if $('html').hasClass('oldie') { function(callback) {
+    faye: (if ($('html').hasClass('oldie')) { function(callback) {
       if (self.fayeClient) {
         callback(self.fayeClient);
       } else {
@@ -47,7 +47,7 @@ function buildPrivatePub(doc) {
         }
       }
     }
-	},
+	}),
 
     connectToFaye: function() {
       self.fayeClient = new Faye.Client(self.subscriptions.server);
