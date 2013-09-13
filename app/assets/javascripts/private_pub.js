@@ -7,7 +7,7 @@ function buildPrivatePub(doc) {
     subscriptionObjects: {},
     subscriptionCallbacks: {},
 
-    faye: function(callback) {
+    faye: if $('html').hasClass('oldie') { function(callback) {
       if (self.fayeClient) {
         callback(self.fayeClient);
       } else {
@@ -31,7 +31,23 @@ function buildPrivatePub(doc) {
           }
         }
       }
-    },
+    }
+	} else { function(callback) {
+      if (self.fayeClient) {
+        callback(self.fayeClient);
+      } else {
+        self.fayeCallbacks.push(callback);
+        if (self.subscriptions.server && !self.connecting) {
+          self.connecting = true;
+          var script = doc.createElement("script");
+          script.type = "text/javascript";
+          script.src = self.subscriptions.server + ".js";
+          script.onload = self.connectToFaye;
+          doc.documentElement.appendChild(script);
+        }
+      }
+    }
+	},
 
     connectToFaye: function() {
       self.fayeClient = new Faye.Client(self.subscriptions.server);
